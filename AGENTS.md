@@ -1,28 +1,18 @@
 # Agent notes
 
-This repository is a portable **comment intelligence** skill pack.
+This repository **publishes** a PR/MR comment-intelligence skill pack. It is not a per-agent workspace. Do not create `.claude/`, `.agents/`, or `.github/skills/` here.
 
-When the user asks to ingest PR/MR comments, refine a comment history, generate review skills, or run the full pipeline, use the orchestrator skill:
-
-- Canonical: `.agents/skills/orchestrate-repo-comment-intelligence/SKILL.md`
-- Command: `python3 .agents/skills/orchestrate-repo-comment-intelligence/scripts/run_pipeline.py`
-
-Composable skills:
-
-- `.agents/skills/ingest-comments/SKILL.md`
-- `.agents/skills/refine-comments/SKILL.md`
-- `.agents/skills/generate-skills/SKILL.md`
-
-Derived skills (updated from the comment corpus, merge-only):
-
-- `.agents/skills/code-review/SKILL.md`
-- `.agents/skills/git-checkin/SKILL.md`
-- `.agents/skills/commit-hooks/SKILL.md`
-
-`.agents/skills/` is the source of truth. After editing canonical skills, run:
+Install into a coding agent:
 
 ```bash
-python3 .agents/skills/orchestrate-repo-comment-intelligence/scripts/mirror_skills.sh
+npx skills add framedparadox/pr-comments
+uv tool install git+https://github.com/framedparadox/pr-comments
 ```
 
-Do not hand-edit `.claude/skills` or `.github/skills`.
+When the user wants to ingest comments, refine history, or generate review skills, run:
+
+```bash
+pr-comments orchestrate --git-dir <analyzed-repo>
+```
+
+Skill source: `skills/*/SKILL.md`. CLI source: `src/comment_intel/`.

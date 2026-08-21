@@ -9,7 +9,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / ".agents" / "skills" / "ingest-comments" / "scripts"))
+sys.path.insert(0, str(ROOT / "src"))
 
 from comment_intel.adapters.github import records_from_pr_bundle
 from comment_intel.adapters.gitlab import records_from_discussions
@@ -18,7 +18,6 @@ from comment_intel.checkpoint import load_cutoff, parse_report_markers, write_ch
 from comment_intel.classify import classify_comment
 from comment_intel.detect import parse_remote_url, provider_from_host, resolve_base_branch, RepoIdentity
 from comment_intel.generate import merge_patterns_markdown, preserve_user_customizations
-from comment_intel.mirror import mirror_skills
 from comment_intel.normalize import make_record, normalize_body
 from comment_intel.pipeline import orchestrate
 from comment_intel.proc import parse_cli_json
@@ -357,17 +356,10 @@ Do not delete this note.
         self.assertNotIn("wiped", preserved)
 
 
-class MirrorTests(unittest.TestCase):
-    def test_copies_canonical_tree(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            src = root / ".agents" / "skills" / "demo"
-            src.mkdir(parents=True)
-            (src / "SKILL.md").write_text("---\nname: demo\ndescription: d\n---\n", encoding="utf-8")
-            copied = mirror_skills(root)
-            self.assertEqual(copied, [".claude/skills", ".github/skills"])
-            self.assertTrue((root / ".claude" / "skills" / "demo" / "SKILL.md").is_file())
-            self.assertTrue((root / ".github" / "skills" / "demo" / "SKILL.md").is_file())
+class SkillLayoutTests(unittest.TestCase):
+    def test_package_has_no_per_agent_skill_trees(self):
+        for name in (".claude", ".agents", ".github"):
+            self.assertFalse((ROOT / name / "skills").exists(), name)
 
 
 class ProcTests(unittest.TestCase):
@@ -388,7 +380,7 @@ class SkillFrontmatterTests(unittest.TestCase):
     }
 
     def test_frontmatter_name_matches_directory(self):
-        skills = ROOT / ".agents" / "skills"
+        skills = ROOT / "skills"
         found = set()
         for skill_md in skills.glob("*/SKILL.md"):
             text = skill_md.read_text(encoding="utf-8")
@@ -422,7 +414,7 @@ class PipelineLocalJsonTests(unittest.TestCase):
                 capture_output=True,
                 env=env,
             )
-            shutil.copytree(ROOT / ".agents" / "skills", root / ".agents" / "skills")
+            shutil.copytree(ROOT / "skills", root / "skills")
             dump = [
                 {
                     "id": "github:acme/app:pr:3:issue_comment:1",
@@ -461,22 +453,22 @@ class PipelineLocalJsonTests(unittest.TestCase):
                 git_dir=root,
                 base_branch="main",
                 local_json=dump_path,
-                skip_mirror=False,
             )
             self.assertEqual(first["new_comments"], 2)
             self.assertEqual(first["total_comments"], 2)
             self.assertGreaterEqual(first["unique_comments"], 2)
-            self.assertIn(".claude/skills", first["mirrored"])
+            self.assertFalse((root / ".claude").exists())
+            self.assertFalse((root / ".agents").exists())
+            self.assertFalse((root / ".github").exists())
             report = Path(first["artifact_dir"]) / "REPORT.md"
             self.assertTrue(report.is_file())
             self.assertIn("comment-intel:cutoff:", report.read_text(encoding="utf-8"))
-            patterns = (root / ".agents" / "skills" / "code-review" / "references" / "patterns.md").read_text(encoding="utf-8")
+            patterns = (root / "skills" / "code-review" / "references" / "patterns.md").read_text(encoding="utf-8")
             self.assertIn("## User customizations", patterns)
             second = orchestrate(
                 git_dir=root,
                 base_branch="main",
                 local_json=dump_path,
-                skip_mirror=True,
             )
             self.assertEqual(second["new_comments"], 0)
             self.assertEqual(second["total_comments"], 2)
