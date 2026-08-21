@@ -14,7 +14,7 @@ Turn the append-only ledger into a deduplicated, classified corpus and a regener
 ## Command
 
 ```bash
-pr-comments refine \
+review-mx refine \
   [--git-dir PATH] [--repo owner/name] [--host github|gitlab|bitbucket|gitea] \
   [--base-branch BRANCH]
 ```

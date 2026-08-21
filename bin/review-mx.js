@@ -22,7 +22,7 @@ function run(command, commandArgs) {
   });
 }
 
-let result = run("uv", ["run", "--project", root, "pr-comments", ...args]);
+let result = run("uv", ["run", "--project", root, "review-mx", ...args]);
 if (result.error || result.status === 127) {
   result = run("python3", ["-m", "comment_intel", ...args]);
 }

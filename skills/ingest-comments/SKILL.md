@@ -17,15 +17,15 @@ Fetch every accessible PR/MR comment for a git repository and write normalized r
 npx skills add framedparadox/pr-comments
 uv tool install git+https://github.com/framedparadox/pr-comments
 # one-shot:
-uvx --from git+https://github.com/framedparadox/pr-comments pr-comments ingest
+uvx --from git+https://github.com/framedparadox/pr-comments review-mx ingest
 ```
 
 ## Command
 
-Prefer the installed CLI (works after npx/uv install). From a git checkout of this pack, `uv run pr-comments` also works.
+Prefer the installed CLI (works after npx/uv install). From a git checkout of this pack, `uv run review-mx` also works.
 
 ```bash
-pr-comments ingest \
+review-mx ingest \
   [--git-dir PATH] [--repo owner/name] [--host github|gitlab|bitbucket|gitea] \
   [--base-branch BRANCH] [--cutoff 2026-08-01T00:00:00Z] [--local-json dump.json]
 ```

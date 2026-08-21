@@ -20,8 +20,8 @@ def ensure_import() -> None:
             sys.path.insert(0, str(src))
             return
     raise SystemExit(
-        "pr-comments is not installed. Install the pack with:\n"
+        "review-mx is not installed. Install the pack with:\n"
         "  npx skills add framedparadox/pr-comments\n"
         "  uv tool install git+https://github.com/framedparadox/pr-comments\n"
-        "  uvx --from git+https://github.com/framedparadox/pr-comments pr-comments\n"
+        "  uvx --from git+https://github.com/framedparadox/pr-comments review-mx\n"
     )

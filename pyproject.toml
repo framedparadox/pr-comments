@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pr-comments"
+name = "review-mx"
 version = "1.0.0"
-description = "Installable Agent Skills pack for pull request / merge request comment intelligence."
+description = "Installable Agent Skills pack that mines PR/MR review comments into a persistent knowledge base."
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "framedparadox" }]
@@ -21,8 +21,7 @@ Homepage = "https://github.com/framedparadox/pr-comments"
 Repository = "https://github.com/framedparadox/pr-comments"
 
 [project.scripts]
-pr-comments = "comment_intel.cli:main"
-comment-intel = "comment_intel.cli:main"
+review-mx = "comment_intel.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/comment_intel"]

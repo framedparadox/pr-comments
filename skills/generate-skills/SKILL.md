@@ -14,7 +14,7 @@ Mine the unique-comment corpus and merge evidence into derived skills that were 
 ## Command
 
 ```bash
-pr-comments generate \
+review-mx generate \
   [--git-dir PATH] [--repo owner/name] [--host HOST] [--base-branch BRANCH]
 ```
 

@@ -31,7 +31,7 @@ commit-msg:
 pre-push:
   commands:
     p0-gate:
-      run: pr-comments generate --help >/dev/null
+      run: review-mx generate --help >/dev/null
 ```
 
 For a real P0 gate, query `unique.json` rather than calling ingest. A one-liner:

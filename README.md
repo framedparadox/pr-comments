@@ -1,6 +1,8 @@
-# PR Comment Intelligence
+# review-mx
 
-An **installable Agent Skills pack** for pull request / merge request comment history. It is not a Claude Code or Copilot project layout. This repository ships skills, a CLI, and research — coding agents install it into *their* skill directories.
+An **installable Agent Skills pack** that mines pull request / merge request review comments into a persistent per-repo knowledge base and derived coding skills. It is not a Claude Code or Copilot project layout. This repository ships skills, a CLI, and research — coding agents install it into *their* skill directories.
+
+The GitHub source is currently `framedparadox/pr-comments`. After that repository is renamed to `review-mx`, use `framedparadox/review-mx` in the install commands below.
 
 ## Install
 
@@ -16,16 +18,16 @@ CLI (pipeline + reports), via uv:
 
 ```bash
 uv tool install git+https://github.com/framedparadox/pr-comments
-pr-comments orchestrate
+review-mx orchestrate
 
 # one-shot without a tool install
-uvx --from git+https://github.com/framedparadox/pr-comments pr-comments orchestrate
+uvx --from git+https://github.com/framedparadox/pr-comments review-mx orchestrate
 ```
 
 From a checkout of this pack:
 
 ```bash
-uv run pr-comments orchestrate --git-dir /path/to/the/repo/you/are/analyzing
+uv run review-mx orchestrate --git-dir /path/to/the/repo/you/are/analyzing
 # or
 npx . orchestrate --git-dir /path/to/repo
 ```
@@ -58,7 +60,7 @@ All skill source lives in [`skills/`](skills/) (the layout `npx skills add` disc
 ```text
 skills/                  # Agent Skills (install these)
 src/comment_intel/       # Python CLI used by those skills
-bin/pr-comments.js       # npx entry that delegates to uv/python
+bin/review-mx.js         # npx entry that delegates to uv/python
 pyproject.toml           # uv / pip
 package.json             # npx
 research/                # design briefs, not runtime

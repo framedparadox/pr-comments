@@ -1,9 +1,9 @@
 {
-  "name": "pr-comments",
+  "name": "review-mx",
   "version": "1.0.0",
-  "description": "Agent skills and CLI for pull request / merge request comment intelligence. Install with npx skills add framedparadox/pr-comments",
+  "description": "Agent skills and CLI that mine PR/MR review comments into a persistent knowledge base. Install with npx skills add framedparadox/pr-comments",
   "bin": {
-    "pr-comments": "bin/pr-comments.js"
+    "review-mx": "bin/review-mx.js"
   },
   "files": [
     "bin",
@@ -22,7 +22,8 @@
     "skills",
     "pull-request",
     "merge-request",
-    "code-review"
+    "code-review",
+    "review-mx"
   ],
   "license": "UNLICENSED"
 }

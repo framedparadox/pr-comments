@@ -25,6 +25,7 @@ Produce a structured, traceable commit. Do not commit until the message is writt
 ```
 Comment-Id: github:owner/repo:pr:150:review_comment:48212
 Addresses: #150
+Review-mx: ingest-<iso>
 ```
 
 6. Keep the subject ≤ 72 characters. Body explains *why*.

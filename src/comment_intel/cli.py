@@ -12,7 +12,7 @@ from .pipeline import generate, ingest, orchestrate, refine, resolve_identity
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="pr-comments",
+        prog="review-mx",
         description="Ingest, refine, and mine git host PR/MR comments.",
     )
     parser.add_argument("--git-dir", help="Git working tree (defaults to cwd)")
