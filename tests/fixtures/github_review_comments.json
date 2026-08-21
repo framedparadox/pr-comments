@@ -1,0 +1,26 @@
+[
+  {
+    "id": 48212,
+    "user": { "login": "reviewer", "type": "User" },
+    "body": "Null check missing before `user.roles` access; will 500 on anonymous requests.",
+    "html_url": "https://github.com/acme/app/pull/150#discussion_r48212",
+    "path": "auth.py",
+    "line": 112,
+    "side": "RIGHT",
+    "in_reply_to_id": null,
+    "pull_request_review_id": 9001,
+    "created_at": "2026-08-12T12:00:00Z",
+    "updated_at": "2026-08-12T12:00:00Z"
+  },
+  {
+    "id": 48213,
+    "user": { "login": "reviewer", "type": "User" },
+    "body": "nit: rename to userCount",
+    "html_url": "https://github.com/acme/app/pull/150#discussion_r48213",
+    "path": "stats.py",
+    "line": 8,
+    "side": "RIGHT",
+    "created_at": "2026-08-12T12:05:00Z",
+    "updated_at": "2026-08-12T12:05:00Z"
+  }
+]

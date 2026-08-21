@@ -1,0 +1,14 @@
+{
+  "base_branch": "develop",
+  "comment_count": 0,
+  "cutoff": "2026-08-21T04:17:20Z",
+  "host": "github.com",
+  "last_generated_at": "2026-08-21T04:17:20Z",
+  "last_pr_number": null,
+  "last_run_at": "2026-08-21T04:17:20Z",
+  "owner": "framedparadox",
+  "provider": "github",
+  "repo": "framedparadox/pr-comments",
+  "schema_version": 1,
+  "unique_count": 0
+}

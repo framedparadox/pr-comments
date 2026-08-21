@@ -1,0 +1,15 @@
+[
+  {
+    "id": 9001,
+    "user": { "login": "reviewer", "type": "User" },
+    "body": "**issue (blocking):** authz must be enforced on this handler.",
+    "html_url": "https://github.com/acme/app/pull/150#pullrequestreview-9001",
+    "submitted_at": "2026-08-12T12:10:00Z"
+  },
+  {
+    "id": 9002,
+    "user": { "login": "reviewer", "type": "User" },
+    "body": "",
+    "submitted_at": "2026-08-12T12:11:00Z"
+  }
+]

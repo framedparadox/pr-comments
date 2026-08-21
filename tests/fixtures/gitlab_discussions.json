@@ -1,0 +1,25 @@
+[
+  {
+    "id": "abc123",
+    "notes": [
+      {
+        "id": 55,
+        "body": "suggestion: cache this query, it is an N+1 in the list endpoint",
+        "system": false,
+        "type": "DiffNote",
+        "created_at": "2026-07-01T08:00:00Z",
+        "updated_at": "2026-07-01T08:00:00Z",
+        "author": { "username": "sam", "bot": false },
+        "position": { "new_path": "api/list.rb", "new_line": 44 },
+        "web_url": "https://gitlab.com/acme/app/-/merge_requests/9#note_55"
+      },
+      {
+        "id": 56,
+        "body": "System note: assigned to sam",
+        "system": true,
+        "created_at": "2026-07-01T08:01:00Z",
+        "author": { "username": "gitlab-bot", "bot": true }
+      }
+    ]
+  }
+]
