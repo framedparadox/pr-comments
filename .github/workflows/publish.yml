@@ -53,13 +53,14 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
-          node-auth-token: ${{ secrets.NPM_TOKEN }}
       - name: Check npm auth
         run: |
           npm config get registry
