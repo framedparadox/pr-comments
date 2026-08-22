@@ -1,0 +1,25 @@
+[
+  {
+    "id": 9001,
+    "user": { "login": "reviewer", "type": "User" },
+    "body": "**issue (blocking):** authz must be enforced on this handler.",
+    "html_url": "https://github.com/acme/app/pull/150#pullrequestreview-9001",
+    "commit_id": "aaa111bbb222ccc333ddd444eee555fff666aaa1",
+    "submitted_at": "2026-08-12T12:10:00Z"
+  },
+  {
+    "id": 9002,
+    "user": { "login": "reviewer", "type": "User" },
+    "body": "",
+    "commit_id": "aaa111bbb222ccc333ddd444eee555fff666aaa1",
+    "submitted_at": "2026-08-12T12:11:00Z"
+  },
+  {
+    "id": 8800,
+    "user": null,
+    "body": "Ship it after the changelog lands.",
+    "html_url": "https://github.com/acme/app/pull/148#pullrequestreview-8800",
+    "commit_id": "bbb222ccc333ddd444eee555fff666aaa111bbb2",
+    "submitted_at": "2026-07-12T08:00:00Z"
+  }
+]
