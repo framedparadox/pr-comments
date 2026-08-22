@@ -1,0 +1,13 @@
+# Exclude Python bytecode and cache artifacts
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Local node/npm artifacts
+node_modules/
+npm-debug.log*
+
+# OS/editor artifacts
+.DS_Store
+Thumbs.db
