@@ -1,0 +1,63 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  gate:
+    name: Require release branch
+    runs-on: ubuntu-latest
+    outputs:
+      should_publish: ${{ steps.gate.outputs.should_publish }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin release:refs/remotes/origin/release
+          if git merge-base --is-ancestor "${GITHUB_SHA}" origin/release; then
+            echo "should_publish=true" >> "$GITHUB_OUTPUT"
+            echo "Tag ${GITHUB_REF_NAME} is on origin/release."
+          else
+            echo "should_publish=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping publish: tag ${GITHUB_REF_NAME} is not on the release branch."
+          fi
+
+  pypi:
+    name: PyPI
+    needs: gate
+    if: needs.gate.outputs.should_publish == 'true'
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Build sdist and wheel
+        run: uv build
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  npm:
+    name: npm
+    needs: gate
+    if: needs.gate.outputs.should_publish == 'true'
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+      - name: Publish to npm
+        run: npm publish --access public --provenance

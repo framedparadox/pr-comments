@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,7 +21,6 @@
       --aside: rgba(14, 18, 24, 0.7);
       --glow: #1a2a22;
       --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
-      --logo-fill: #0e1218;
       --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --sans: "Segoe UI", system-ui, -apple-system, sans-serif;
     }
@@ -41,7 +40,6 @@
       --aside: rgba(255, 255, 255, 0.82);
       --glow: #dbeee3;
       --shadow: 0 18px 50px rgba(26, 35, 48, 0.08);
-      --logo-fill: #ffffff;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; height: 100%; }
@@ -58,24 +56,6 @@
       padding: 28px 28px 16px;
       border-bottom: 1px solid var(--line);
     }
-    .brand { display: flex; align-items: center; gap: 14px; }
-    .logo {
-      flex: none;
-      width: 40px;
-      height: 40px;
-      padding: 0;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: var(--bg-2);
-      color: var(--accent);
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      box-shadow: var(--shadow);
-    }
-    .logo:hover { border-color: var(--accent); }
-    .logo:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
-    .logo svg { width: 22px; height: 22px; display: block; }
     h1 { margin: 0 0 6px; font-size: 22px; font-weight: 650; letter-spacing: -0.02em; }
     .sub { color: var(--muted); font-size: 13px; }
     .stats { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -91,10 +71,34 @@
     .layout { display: grid; grid-template-columns: 280px 1fr; height: calc(100% - 108px); }
     aside, main { overflow: auto; }
     aside {
+      display: flex;
+      flex-direction: column;
       border-right: 1px solid var(--line);
       padding: 16px;
       background: var(--aside);
     }
+    .filters { flex: 1; }
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 18px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--bg-2);
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .theme-toggle:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+    .theme-toggle svg { width: 18px; height: 18px; flex: none; }
+    html[data-theme="dark"] .icon-moon { display: none; }
+    html[data-theme="light"] .icon-sun { display: none; }
+    html[data-theme="dark"] .theme-label-dark { display: none; }
+    html[data-theme="light"] .theme-label-light { display: none; }
     label { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin: 14px 0 6px; }
     input, select {
       width: 100%;
@@ -141,6 +145,7 @@
     .who.deleted { color: var(--danger); }
     .who.bot { color: var(--bot); }
     .kind { font-family: var(--mono); font-size: 11px; color: var(--accent-2); }
+    .snippet { color: var(--muted); max-width: 420px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sha { font-family: var(--mono); font-size: 11px; color: var(--accent); }
     .expand {
       padding: 16px 4px 4px;
@@ -173,24 +178,15 @@
 </head>
 <body>
   <header>
-    <div class="brand">
-      <button type="button" class="logo" id="theme-toggle" aria-label="Switch to light mode" title="Toggle light and dark mode">
-        <svg viewBox="0 0 32 32" aria-hidden="true">
-          <rect x="1" y="1" width="30" height="30" rx="8" fill="currentColor" opacity="0.14"/>
-          <path d="M8 10.5h11.5a4.5 4.5 0 0 1 4.5 4.5v1.2c0 2.5-2 4.5-4.5 4.5H16l-3.4 3.2v-3.2H8A3.5 3.5 0 0 1 4.5 17.2v-3.2A3.5 3.5 0 0 1 8 10.5z" fill="none" stroke="currentColor" stroke-width="1.8"/>
-          <circle cx="20.5" cy="9.2" r="2.2" fill="var(--logo-fill)" stroke="currentColor" stroke-width="1.6"/>
-          <path d="M20.5 11.4v3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-      </button>
-      <div>
-        <h1 id="title">PR comment archive</h1>
-        <div class="sub" id="subtitle"></div>
-      </div>
+    <div>
+      <h1 id="title">PR comment archive</h1>
+      <div class="sub" id="subtitle"></div>
     </div>
     <div class="stats" id="stats"></div>
   </header>
   <div class="layout">
     <aside>
+      <div class="filters">
       <label for="q">Search comments</label>
       <input id="q" placeholder="text, author, path, commit…" autofocus />
       <label for="author">Comment by</label>
@@ -212,6 +208,18 @@
         <option value="pr">PR number</option>
         <option value="author">Comment by</option>
       </select>
+      </div>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode" title="Toggle light and dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5z"/>
+        </svg>
+        <span class="theme-label-light">Light mode</span>
+        <span class="theme-label-dark">Dark mode</span>
+      </button>
     </aside>
     <main>
       <div class="toolbar">
@@ -366,7 +374,7 @@
       tr.classList.add("selected");
       const detail = document.createElement("tr");
       detail.className = "detail-row";
-      detail.innerHTML = `<td colspan="5">${detailHtml(comment)}</td>`;
+      detail.innerHTML = `<td colspan="6">${detailHtml(comment)}</td>`;
       tr.after(detail);
     }
 
@@ -379,11 +387,12 @@
       }
       document.getElementById("table-wrap").innerHTML = `<table>
         <thead><tr>
-          <th>PR</th><th>Comment by</th><th>Comment Kind</th><th>Comment date</th><th>Commit</th>
+          <th>PR</th><th>Comment by</th><th>Comment</th><th>Comment Kind</th><th>Comment date</th><th>Commit</th>
         </tr></thead>
         <tbody>${rows.map(c => `<tr class="summary" data-id="${esc(c.id)}">
           <td>#${esc(c.pr_number)}</td>
           <td class="who ${esc(c.author_type)}">${esc(c.comment_by)}${c.is_reply ? " <span class='kind'>reply</span>" : ""}</td>
+          <td class="snippet">${esc(snippet(c.comment))}</td>
           <td class="kind">${esc(c.comment_kind)}</td>
           <td>${esc((c.comment_date || "").replace("T", " ").replace("Z", ""))}</td>
           <td class="sha">${esc(shortSha(c.commit_id))}</td>

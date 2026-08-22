@@ -274,6 +274,16 @@ class HatchLayoutTests(unittest.TestCase):
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         self.assertIn('"skills" = "pr_comments/data/skills"', text)
         self.assertIn('pr-comments = "pr_comments.cli:main"', text)
+        self.assertIn('license = { text = "MIT" }', text)
+        self.assertTrue((ROOT / "LICENSE").is_file())
+        self.assertIn("MIT License", (ROOT / "LICENSE").read_text(encoding="utf-8"))
+        pkg = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
+        self.assertEqual(pkg["name"], "pr-comments")
+        self.assertEqual(pkg["license"], "MIT")
+        self.assertEqual(pkg["bin"]["pr-comments"], "bin/pr-comments.js")
+        self.assertTrue(any(item.startswith("src/") for item in pkg["files"]))
+        self.assertIn("LICENSE", pkg["files"])
+        self.assertEqual(pkg["publishConfig"]["access"], "public")
 
     def test_skill_scripts_and_references_exist(self):
         extract_skill = ROOT / "skills" / "extract-pr-comments"
@@ -451,7 +461,9 @@ class DashboardAndServeTests(unittest.TestCase):
         self.assertIn("Thread", html)
         self.assertIn('id="theme-toggle"', html)
         self.assertIn('data-theme="light"', html)
-        self.assertIn("<th>PR</th><th>Comment by</th><th>Comment Kind</th><th>Comment date</th><th>Commit</th>", html)
+        self.assertIn("<th>PR</th><th>Comment by</th><th>Comment</th><th>Comment Kind</th><th>Comment date</th><th>Commit</th>", html)
+        self.assertIn("icon-sun", html)
+        self.assertIn("icon-moon", html)
         self.assertNotIn("Select a row to read the full comment", html)
         self.assertIn("detail-row", html)
         self.assertNotIn('id="detail"', html)

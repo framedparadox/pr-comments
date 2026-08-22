@@ -10,8 +10,9 @@ from pathlib import Path
 
 INSTALL_HINT = """pr-comments is not installed. Install the pack with:
   npx skills add framedparadox/pr-comments
-  uv tool install git+https://github.com/framedparadox/pr-comments
-  uvx --from git+https://github.com/framedparadox/pr-comments pr-comments
+  pip install pr-comments
+  uv tool install pr-comments
+  uvx pr-comments
 """
 
 

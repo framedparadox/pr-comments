@@ -1,22 +1,40 @@
 {
   "name": "pr-comments",
   "version": "1.0.0",
-  "description": "Agent skills and CLI that extract pull request comments into CSV and a local review dashboard. Install with npx skills add framedparadox/pr-comments",
+  "description": "Agent skills and CLI that extract pull request comments into CSV and a local review dashboard.",
   "bin": {
     "pr-comments": "bin/pr-comments.js"
   },
   "files": [
     "bin",
-    "skills",
-    "src",
+    "skills/**/*.md",
+    "skills/**/*.py",
+    "src/pr_comments/**/*.py",
+    "src/pr_comments/**/*.html",
     "pyproject.toml",
     "README.md",
-    "AGENTS.md"
+    "AGENTS.md",
+    "LICENSE"
   ],
+  "scripts": {
+    "test": "python3 -m unittest discover -s tests -v"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/framedparadox/pr-comments.git"
   },
+  "homepage": "https://github.com/framedparadox/pr-comments#readme",
+  "bugs": {
+    "url": "https://github.com/framedparadox/pr-comments/issues"
+  },
+  "author": "framedparadox",
   "keywords": [
     "agent-skills",
     "skills",
@@ -25,5 +43,5 @@
     "code-review",
     "csv"
   ],
-  "license": "UNLICENSED"
+  "license": "MIT"
 }
