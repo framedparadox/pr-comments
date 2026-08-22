@@ -37,7 +37,7 @@ python3 skills/review-pr-comments/scripts/serve.py --out DIR
 1. If no export exists, run `extract-pr-comments` first.
 2. Prefer opening `dashboard.html` directly in a browser (it is self-contained; comment data is embedded).
 3. If `file://` is blocked, serve it: `pr-comments serve --out DIR` then open `http://127.0.0.1:8765/dashboard.html`.
-4. Use the dashboard to filter by comment by, author type (`user` / `bot` / `deleted`), kind, PR, and comment date. Click a row for commit SHA, PR created date, full body, and thread replies.
+4. Use the dashboard to filter by comment by, author type (`user` / `bot` / `deleted`), kind, PR, and comment date. Click a row to expand the full body, commit SHA, PR created date, and thread replies. The header logo toggles light and dark mode.
 5. “Download filtered CSV” exports the current view. The full archive remains `comments.csv` in the same folder.
 
 ## Do not

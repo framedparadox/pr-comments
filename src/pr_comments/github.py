@@ -240,7 +240,16 @@ class GitHubExtractor:
     def list_pull_requests(self, base_branch: str) -> list[PullRequest]:
         query = urlencode({"state": "all", "base": base_branch, "per_page": "100", "sort": "created", "direction": "asc"})
         raw = self._paginate(f"repos/{self.slug}/pulls?{query}")
-        return [pull_request_from_api(item) for item in raw if item.get("number") is not None]
+        out: list[PullRequest] = []
+        for item in raw:
+            if item.get("number") is None:
+                continue
+            base = item.get("base") or {}
+            ref = base.get("ref") if isinstance(base, dict) else None
+            if ref and ref != base_branch:
+                continue
+            out.append(pull_request_from_api(item))
+        return out
 
     def fetch_comments(
         self,
