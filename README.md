@@ -6,10 +6,22 @@ It is not a Claude Code or Copilot project layout. Coding agents install the ski
 
 ## Install
 
-Any Agent Skills client (Claude Code, Codex, Copilot, Cursor, OpenCode, and others):
+Any Agent Skills client (Claude Code, Codex, Copilot, Cursor, OpenCode, and others). `npx skills add owner/repo` clones the GitHub **default branch** (`main`). Use that command once this pack is on `main`.
 
 ```bash
 npx skills add framedparadox/pr-comments
+```
+
+Until then, install from this branch (the `#` ref is required; a `/tree/…` URL is split on the slash in the branch name):
+
+```bash
+npx skills add https://github.com/framedparadox/pr-comments.git#cursor/pr-comment-extractor-0e39
+```
+
+From a local checkout of this pack:
+
+```bash
+npx skills add .
 ```
 
 CLI:
@@ -73,4 +85,16 @@ GitHub Enterprise: pass `--host your.ghe.example`.
 
 ```bash
 python3 -m unittest discover -s tests -v
+```
+
+## Troubleshooting
+
+### `No skills found`
+
+`npx skills add framedparadox/pr-comments` clones `main`. If `main` only has the README, the CLI reports *No valid skills found. Skills require a SKILL.md with name and description.*
+
+Install from the branch that contains `skills/*/SKILL.md`, or `npx skills add /path/to/this/checkout`. Verify with `--list` before installing:
+
+```bash
+npx skills add https://github.com/framedparadox/pr-comments.git#cursor/pr-comment-extractor-0e39 --list
 ```

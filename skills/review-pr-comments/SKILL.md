@@ -15,6 +15,8 @@ Review the CSV/HTML archive produced by `extract-pr-comments`.
 
 ```bash
 npx skills add framedparadox/pr-comments
+npx skills add https://github.com/framedparadox/pr-comments.git#cursor/pr-comment-extractor-0e39
+npx skills add .
 uv tool install git+https://github.com/framedparadox/pr-comments
 ```
 
