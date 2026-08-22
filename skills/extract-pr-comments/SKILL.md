@@ -15,9 +15,6 @@ Document **all** pull request comments on a repository: conversation comments, i
 
 ```bash
 npx skills add framedparadox/pr-comments
-# until the pack is on GitHub's default branch (main):
-npx skills add https://github.com/framedparadox/pr-comments.git#cursor/pr-comment-extractor-0e39
-npx skills add .
 uv tool install git+https://github.com/framedparadox/pr-comments
 uvx --from git+https://github.com/framedparadox/pr-comments pr-comments extract
 ```
