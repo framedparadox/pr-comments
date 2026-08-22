@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PR comment archive</title>
   <style>
-    :root {
+    :root, html[data-theme="dark"] {
+      color-scheme: dark;
       --bg: #0e1218;
       --bg-2: #161c25;
       --bg-3: #1e2733;
@@ -16,15 +17,37 @@
       --accent-2: #8ec8ff;
       --danger: #f87171;
       --bot: #c4b5fd;
+      --selected: #1c2a24;
+      --aside: rgba(14, 18, 24, 0.7);
+      --glow: #1a2a22;
       --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      --logo-fill: #0e1218;
       --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f3f6fa;
+      --bg-2: #ffffff;
+      --bg-3: #e8eef5;
+      --line: #d5deea;
+      --text: #1a2330;
+      --muted: #5b6b7c;
+      --accent: #1a7f4c;
+      --accent-2: #1d6fb8;
+      --danger: #c24141;
+      --bot: #6d4cbb;
+      --selected: #e4f4ea;
+      --aside: rgba(255, 255, 255, 0.82);
+      --glow: #dbeee3;
+      --shadow: 0 18px 50px rgba(26, 35, 48, 0.08);
+      --logo-fill: #ffffff;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; height: 100%; }
     body {
       font-family: var(--sans);
-      background: radial-gradient(1200px 500px at 10% -10%, #1a2a22 0%, transparent 50%), var(--bg);
+      background: radial-gradient(1200px 500px at 10% -10%, var(--glow) 0%, transparent 50%), var(--bg);
       color: var(--text);
     }
     header {
@@ -35,6 +58,24 @@
       padding: 28px 28px 16px;
       border-bottom: 1px solid var(--line);
     }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .logo {
+      flex: none;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--bg-2);
+      color: var(--accent);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+    }
+    .logo:hover { border-color: var(--accent); }
+    .logo:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+    .logo svg { width: 22px; height: 22px; display: block; }
     h1 { margin: 0 0 6px; font-size: 22px; font-weight: 650; letter-spacing: -0.02em; }
     .sub { color: var(--muted); font-size: 13px; }
     .stats { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -47,14 +88,12 @@
     }
     .stat b { display: block; font-size: 18px; }
     .stat span { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
-    .layout { display: grid; grid-template-columns: 280px 1fr 360px; height: calc(100% - 108px); }
-    aside, main, .detail {
-      overflow: auto;
-    }
+    .layout { display: grid; grid-template-columns: 280px 1fr; height: calc(100% - 108px); }
+    aside, main { overflow: auto; }
     aside {
       border-right: 1px solid var(--line);
       padding: 16px;
-      background: rgba(14, 18, 24, 0.7);
+      background: var(--aside);
     }
     label { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin: 14px 0 6px; }
     input, select {
@@ -88,22 +127,26 @@
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
     th { color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; position: sticky; top: 0; background: var(--bg); }
-    tr { cursor: pointer; }
-    tr:hover { background: var(--bg-2); }
-    tr.selected { background: #1c2a24; }
+    tr.summary { cursor: pointer; }
+    tr.summary:hover { background: var(--bg-2); }
+    tr.summary.selected { background: var(--selected); }
+    tr.detail-row { cursor: default; }
+    tr.detail-row:hover { background: transparent; }
+    tr.detail-row td {
+      padding: 0 12px 16px;
+      background: var(--bg-2);
+      border-bottom: 1px solid var(--line);
+    }
     .who { font-weight: 600; }
     .who.deleted { color: var(--danger); }
     .who.bot { color: var(--bot); }
     .kind { font-family: var(--mono); font-size: 11px; color: var(--accent-2); }
-    .snippet { color: var(--muted); max-width: 520px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sha { font-family: var(--mono); font-size: 11px; color: var(--accent); }
-    .detail {
-      border-left: 1px solid var(--line);
-      padding: 18px;
-      background: var(--bg-2);
+    .expand {
+      padding: 16px 4px 4px;
     }
-    .detail h2 { margin: 0 0 8px; font-size: 16px; }
-    .meta { display: grid; grid-template-columns: 120px 1fr; gap: 6px 10px; font-size: 13px; margin: 16px 0; }
+    .expand h2 { margin: 0 0 8px; font-size: 16px; }
+    .meta { display: grid; grid-template-columns: 140px 1fr; gap: 6px 10px; font-size: 13px; margin: 16px 0; }
     .meta dt { color: var(--muted); }
     .body {
       white-space: pre-wrap;
@@ -125,16 +168,24 @@
     }
     @media (max-width: 1100px) {
       .layout { grid-template-columns: 240px 1fr; }
-      .detail { display: none; }
-      .detail.open-mobile { display: block; position: fixed; inset: 12px; z-index: 5; border-radius: 16px; }
     }
   </style>
 </head>
 <body>
   <header>
-    <div>
-      <h1 id="title">PR comment archive</h1>
-      <div class="sub" id="subtitle"></div>
+    <div class="brand">
+      <button type="button" class="logo" id="theme-toggle" aria-label="Switch to light mode" title="Toggle light and dark mode">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="1" y="1" width="30" height="30" rx="8" fill="currentColor" opacity="0.14"/>
+          <path d="M8 10.5h11.5a4.5 4.5 0 0 1 4.5 4.5v1.2c0 2.5-2 4.5-4.5 4.5H16l-3.4 3.2v-3.2H8A3.5 3.5 0 0 1 4.5 17.2v-3.2A3.5 3.5 0 0 1 8 10.5z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="20.5" cy="9.2" r="2.2" fill="var(--logo-fill)" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M20.5 11.4v3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div>
+        <h1 id="title">PR comment archive</h1>
+        <div class="sub" id="subtitle"></div>
+      </div>
     </div>
     <div class="stats" id="stats"></div>
   </header>
@@ -169,15 +220,36 @@
       </div>
       <div id="table-wrap"></div>
     </main>
-    <section class="detail" id="detail">
-      <p class="sub">Select a row to read the full comment, commit, and thread.</p>
-    </section>
   </div>
   <script id="pr-comments-data" type="application/json">__PR_COMMENTS_DATA__</script>
   <script>
     const payload = JSON.parse(document.getElementById("pr-comments-data").textContent);
     const comments = payload.comments || [];
     const state = { q: "", author: "", type: "all", kind: "all", pr: "", from: "", to: "", sort: "date-desc", selected: null };
+    const THEME_KEY = "pr-comments-theme";
+
+    function preferredTheme() {
+      try {
+        const saved = localStorage.getItem(THEME_KEY);
+        if (saved === "light" || saved === "dark") return saved;
+      } catch (err) { /* private file:// */ }
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    }
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      const btn = document.getElementById("theme-toggle");
+      if (btn) {
+        const next = theme === "dark" ? "light" : "dark";
+        btn.setAttribute("aria-label", "Switch to " + next + " mode");
+        btn.title = "Toggle light and dark mode";
+      }
+    }
+    applyTheme(preferredTheme());
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+      const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+      applyTheme(next);
+      try { localStorage.setItem(THEME_KEY, next); } catch (err) { /* ignore */ }
+    });
 
     document.getElementById("title").textContent = payload.repo + " — PR comments";
     document.getElementById("subtitle").textContent =
@@ -261,6 +333,43 @@
     function shortSha(v) { return v ? String(v).slice(0, 7) : "—"; }
     function snippet(v) { return String(v || "").replace(/\s+/g, " ").trim(); }
 
+    function detailHtml(c) {
+      const thread = comments.filter(x => x.thread_id && x.thread_id === c.thread_id && x.pr_number === c.pr_number)
+        .sort((a,b) => (a.comment_date||"").localeCompare(b.comment_date||""));
+      return `
+        <div class="expand">
+          <h2>${esc(c.comment_by)} on #${esc(c.pr_number)}</h2>
+          <div class="sub">${esc(c.pr_title || "")}</div>
+          <dl class="meta">
+            <dt>Comment by</dt><dd class="who ${esc(c.author_type)}">${esc(c.comment_by)} (${esc(c.author_type)})</dd>
+            <dt>Comment date</dt><dd>${esc(c.comment_date)}</dd>
+            <dt>PR created</dt><dd>${esc(c.pr_created_at)}</dd>
+            <dt>Commit</dt><dd class="sha">${esc(c.commit_id || "—")}</dd>
+            <dt>Original commit</dt><dd class="sha">${esc(c.original_commit_id || "—")}</dd>
+            <dt>Kind</dt><dd>${esc(c.comment_kind)}${c.path ? " · " + esc(c.path) + (c.line ? ":" + esc(c.line) : "") : ""}</dd>
+            <dt>Links</dt><dd>${c.comment_url ? `<a href="${esc(c.comment_url)}" target="_blank" rel="noreferrer">comment</a>` : "—"}
+              ${c.pr_url ? ` · <a href="${esc(c.pr_url)}" target="_blank" rel="noreferrer">pull request</a>` : ""}</dd>
+          </dl>
+          <div class="body">${esc(c.comment)}</div>
+          ${thread.length > 1 ? `<label style="margin-top:18px">Thread (${thread.length})</label>` +
+            thread.map(t => `<p class="sub"><b class="who ${esc(t.author_type)}">${esc(t.comment_by)}</b> · ${esc(t.comment_date)}<br>${esc(snippet(t.comment))}</p>`).join("") : ""}
+        </div>`;
+    }
+
+    function expandRow(tr, comment) {
+      document.querySelectorAll("tr.summary.selected").forEach(x => x.classList.remove("selected"));
+      document.querySelectorAll("tr.detail-row").forEach(x => x.remove());
+      if (!tr || !comment) {
+        state.selected = null;
+        return;
+      }
+      tr.classList.add("selected");
+      const detail = document.createElement("tr");
+      detail.className = "detail-row";
+      detail.innerHTML = `<td colspan="5">${detailHtml(comment)}</td>`;
+      tr.after(detail);
+    }
+
     function render() {
       const rows = filtered();
       document.getElementById("count").textContent = rows.length + " of " + comments.length + " comments";
@@ -270,46 +379,33 @@
       }
       document.getElementById("table-wrap").innerHTML = `<table>
         <thead><tr>
-          <th>PR</th><th>Comment by</th><th>Comment date</th><th>Commit</th><th>Kind</th><th>Comment</th>
+          <th>PR</th><th>Comment by</th><th>Comment Kind</th><th>Comment date</th><th>Commit</th>
         </tr></thead>
-        <tbody>${rows.map(c => `<tr data-id="${esc(c.id)}">
+        <tbody>${rows.map(c => `<tr class="summary" data-id="${esc(c.id)}">
           <td>#${esc(c.pr_number)}</td>
           <td class="who ${esc(c.author_type)}">${esc(c.comment_by)}${c.is_reply ? " <span class='kind'>reply</span>" : ""}</td>
+          <td class="kind">${esc(c.comment_kind)}</td>
           <td>${esc((c.comment_date || "").replace("T", " ").replace("Z", ""))}</td>
           <td class="sha">${esc(shortSha(c.commit_id))}</td>
-          <td class="kind">${esc(c.comment_kind)}</td>
-          <td class="snippet">${esc(snippet(c.comment))}</td>
         </tr>`).join("")}</tbody></table>`;
-      document.querySelectorAll("tbody tr").forEach(tr => {
+      document.querySelectorAll("tbody tr.summary").forEach(tr => {
         tr.addEventListener("click", () => {
-          state.selected = tr.getAttribute("data-id");
-          document.querySelectorAll("tbody tr").forEach(x => x.classList.toggle("selected", x === tr));
-          show(comments.find(c => c.id === state.selected));
+          const id = tr.getAttribute("data-id");
+          if (state.selected === id) {
+            expandRow(null, null);
+            return;
+          }
+          state.selected = id;
+          expandRow(tr, comments.find(c => c.id === id));
         });
       });
-    }
-
-    function show(c) {
-      if (!c) return;
-      const thread = comments.filter(x => x.thread_id && x.thread_id === c.thread_id && x.pr_number === c.pr_number)
-        .sort((a,b) => (a.comment_date||"").localeCompare(b.comment_date||""));
-      document.getElementById("detail").innerHTML = `
-        <h2>${esc(c.comment_by)} on #${esc(c.pr_number)}</h2>
-        <div class="sub">${esc(c.pr_title || "")}</div>
-        <dl class="meta">
-          <dt>Comment by</dt><dd class="who ${esc(c.author_type)}">${esc(c.comment_by)} (${esc(c.author_type)})</dd>
-          <dt>Comment date</dt><dd>${esc(c.comment_date)}</dd>
-          <dt>PR created</dt><dd>${esc(c.pr_created_at)}</dd>
-          <dt>Commit</dt><dd class="sha">${esc(c.commit_id || "—")}</dd>
-          <dt>Original commit</dt><dd class="sha">${esc(c.original_commit_id || "—")}</dd>
-          <dt>Kind</dt><dd>${esc(c.comment_kind)}${c.path ? " · " + esc(c.path) + (c.line ? ":" + esc(c.line) : "") : ""}</dd>
-          <dt>Links</dt><dd>${c.comment_url ? `<a href="${esc(c.comment_url)}" target="_blank" rel="noreferrer">comment</a>` : "—"}
-            ${c.pr_url ? ` · <a href="${esc(c.pr_url)}" target="_blank" rel="noreferrer">pull request</a>` : ""}</dd>
-        </dl>
-        <div class="body">${esc(c.comment)}</div>
-        ${thread.length > 1 ? `<label style="margin-top:18px">Thread (${thread.length})</label>` +
-          thread.map(t => `<p class="sub"><b class="who ${esc(t.author_type)}">${esc(t.comment_by)}</b> · ${esc(t.comment_date)}<br>${esc(snippet(t.comment))}</p>`).join("") : ""}
-      `;
+      if (state.selected) {
+        const selected = [...document.querySelectorAll("tbody tr.summary")]
+          .find(tr => tr.getAttribute("data-id") === state.selected);
+        const comment = comments.find(c => c.id === state.selected);
+        if (selected && comment) expandRow(selected, comment);
+        else state.selected = null;
+      }
     }
 
     document.getElementById("download").addEventListener("click", () => {
