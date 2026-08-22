@@ -6,7 +6,8 @@ Install into a coding agent:
 
 ```bash
 npx skills add framedparadox/pr-comments
-uv tool install git+https://github.com/framedparadox/pr-comments
+uv tool install pr-comments
+pip install pr-comments
 ```
 
 When the user wants every PR comment on the main (or default) branch documented:

@@ -12,12 +12,29 @@ Any Agent Skills client (Claude Code, Codex, Copilot, Cursor, OpenCode, and othe
 npx skills add framedparadox/pr-comments
 ```
 
-CLI:
+CLI (PyPI):
+
+```bash
+pip install pr-comments
+# or
+uv tool install pr-comments
+pr-comments extract --repo owner/name
+```
+
+CLI (npm):
+
+```bash
+npm install -g pr-comments
+# or one-shot
+npx pr-comments extract --repo owner/name
+```
+
+The npm CLI still needs Python 3.10+ (and optionally `uv`) on `PATH`.
+
+From Git, without waiting for a PyPI release:
 
 ```bash
 uv tool install git+https://github.com/framedparadox/pr-comments
-pr-comments extract --repo owner/name
-
 uvx --from git+https://github.com/framedparadox/pr-comments pr-comments extract --repo owner/name
 ```
 
@@ -84,7 +101,7 @@ In the dashboard you can:
 - Filter by comment by, author type (`user` / `bot` / `deleted`), kind, PR, and comment date
 - Search text, path, and commit SHA
 - Expand a row for the full body, commit SHA, PR created date, links, and thread replies
-- Toggle light and dark mode with the header logo
+- Toggle light and dark mode from the sun / moon control at the bottom of the sidebar
 - Download the current filtered view as CSV (the full archive remains `comments.csv`)
 
 ## Artifacts
@@ -110,8 +127,40 @@ pr-comments serve --out pr-comments-export/github.com--owner--repo
 
 GitHub Enterprise: pass `--host your.ghe.example`.
 
+## Future Enhancements
+
+- Support extracting and reviewing comments for **multiple projects** in one run, with dashboard support across those projects.
+- Update an existing extract in place when the export is already present, instead of always writing a full new archive.
+
 ## Tests
 
 ```bash
 python3 -m unittest discover -s tests -v
+```
+
+## Publish to PyPI and npm
+
+The project name is `pr-comments` on both [PyPI](https://pypi.org/project/pr-comments/) and [npm](https://www.npmjs.com/package/pr-comments). Maintainers:
+
+1. Create the projects and add **Trusted Publishers** for this GitHub repository:
+   - PyPI: workflow `publish.yml`, environment `pypi`
+   - npm: workflow `publish.yml`, environment `npm`
+2. Merge the release onto the `release` branch, tag it `v*`, and push both:
+
+```bash
+git checkout release
+git merge --ff-only main   # or your release commit
+git tag v1.0.0
+git push origin release
+git push origin v1.0.0
+```
+
+The [Publish](.github/workflows/publish.yml) workflow runs **only** for `v*` tags whose commit is on `release`. It builds and uploads the Python sdist/wheel and the npm package with OIDC (no tokens in the repo). Pushes to `release` without a `v*` tag, or `v*` tags on other branches, do not publish.
+
+Locally:
+
+```bash
+uv build
+uv publish
+npm publish --access public
 ```

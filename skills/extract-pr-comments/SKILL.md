@@ -4,7 +4,7 @@ description: Fetch every pull request comment and reply on PRs targeting the rep
 metadata:
   version: "1.0.0"
   author: framedparadox
-compatibility: Requires python3 and either the gh CLI or GH_TOKEN/GITHUB_TOKEN. Install with npx skills add framedparadox/pr-comments or uv tool install.
+compatibility: Requires python3 and either the gh CLI or GH_TOKEN/GITHUB_TOKEN. Install with npx skills add framedparadox/pr-comments, pip install pr-comments, or uv tool install pr-comments.
 ---
 
 # extract-pr-comments
@@ -15,8 +15,9 @@ Document **all** pull request comments on a repository: conversation comments, i
 
 ```bash
 npx skills add framedparadox/pr-comments
-uv tool install git+https://github.com/framedparadox/pr-comments
-uvx --from git+https://github.com/framedparadox/pr-comments pr-comments extract
+pip install pr-comments
+uv tool install pr-comments
+uvx pr-comments extract
 ```
 
 This pack does not create `.claude/`, `.agents/`, or `.github/skills/` trees. `npx skills add` copies these folders into the agent the user selects.
