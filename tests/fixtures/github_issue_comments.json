@@ -1,0 +1,56 @@
+[
+  {
+    "id": 9931,
+    "user": { "login": "alice", "type": "User" },
+    "body": "Consider extracting this into a helper — three call sites now duplicate the same 6 lines.",
+    "html_url": "https://github.com/acme/app/pull/150#issuecomment-9931",
+    "issue_url": "https://api.github.com/repos/acme/app/issues/150",
+    "created_at": "2026-08-12T10:00:00Z",
+    "updated_at": "2026-08-12T10:00:00Z"
+  },
+  {
+    "id": 9932,
+    "user": { "login": "dependabot[bot]", "type": "Bot" },
+    "body": "Dependabot is rebasing this PR because the target branch was updated.",
+    "html_url": "https://github.com/acme/app/pull/150#issuecomment-9932",
+    "issue_url": "https://api.github.com/repos/acme/app/issues/150",
+    "created_at": "2026-08-12T11:00:00Z",
+    "updated_at": "2026-08-12T11:00:00Z"
+  },
+  {
+    "id": 9933,
+    "user": null,
+    "body": "Old note from a deactivated account: please add a changelog entry.",
+    "html_url": "https://github.com/acme/app/pull/148#issuecomment-9933",
+    "issue_url": "https://api.github.com/repos/acme/app/issues/148",
+    "created_at": "2026-07-10T09:00:00Z",
+    "updated_at": "2026-07-10T09:00:00Z"
+  },
+  {
+    "id": 9940,
+    "user": { "login": "bob", "type": "User" },
+    "body": "Closing this without merging.",
+    "html_url": "https://github.com/acme/app/pull/149#issuecomment-9940",
+    "issue_url": "https://api.github.com/repos/acme/app/issues/149",
+    "created_at": "2026-07-21T09:00:00Z",
+    "updated_at": "2026-07-21T09:00:00Z"
+  },
+  {
+    "id": 8801,
+    "user": { "login": "eve", "type": "User" },
+    "body": "This comment is on a PR that targets develop, not main.",
+    "html_url": "https://github.com/acme/app/pull/99#issuecomment-8801",
+    "issue_url": "https://api.github.com/repos/acme/app/issues/99",
+    "created_at": "2026-08-12T09:00:00Z",
+    "updated_at": "2026-08-12T09:00:00Z"
+  },
+  {
+    "id": 9999,
+    "user": { "login": "someone", "type": "User" },
+    "body": "This is an issue comment, not a PR.",
+    "html_url": "https://github.com/acme/app/issues/9#issuecomment-9999",
+    "issue_url": "https://api.github.com/repos/acme/app/issues/9",
+    "created_at": "2026-08-01T00:00:00Z",
+    "updated_at": "2026-08-01T00:00:00Z"
+  }
+]

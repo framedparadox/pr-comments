@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pr-comments"
+version = "1.0.0"
+description = "Extract every pull request comment (including deactivated authors) into CSV and a local review dashboard."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "framedparadox" }]
+keywords = ["agent-skills", "pull-request", "github", "code-review", "csv"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Version Control :: Git",
+]
+
+[project.urls]
+Homepage = "https://github.com/framedparadox/pr-comments"
+Repository = "https://github.com/framedparadox/pr-comments"
+Issues = "https://github.com/framedparadox/pr-comments/issues"
+
+[project.scripts]
+pr-comments = "pr_comments.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pr_comments"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"skills" = "pr_comments/data/skills"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/pr_comments",
+  "skills",
+  "tests",
+  "README.md",
+  "AGENTS.md",
+  "LICENSE",
+  "pyproject.toml",
+]
